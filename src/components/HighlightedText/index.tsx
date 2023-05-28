@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import './styles.css';
+import "./styles.css";
 
 interface Props {
   highlight: string;
@@ -9,7 +9,7 @@ interface Props {
 //TO DO: Check highlight text only on init of
 const HighlightedText: React.FC<Props> = ({ highlight, value }) => {
   const splittedName: Array<string> = value.split(
-    new RegExp(`(${highlight})`, 'gi')
+    new RegExp(`(${highlight})`, "gi")
   );
 
   const getHighlightedText = () => {

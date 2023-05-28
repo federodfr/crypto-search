@@ -1,8 +1,8 @@
-import React from 'react';
-import { Data } from '../../helpers/types';
+import React from "react";
+import { Data } from "../../helpers/types";
+import TableRow from "./TableRow";
 
-import './styles.css';
-import TableRow from './TableRow';
+import "./styles.css";
 
 interface Props {
   data: Array<Data>;

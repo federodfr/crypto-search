@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Body from './containers/Body';
-import { getAssetsData } from './api/assets';
-import { JSONData } from './helpers/types';
+import React, { useEffect, useState } from "react";
+import Body from "./containers/Body";
+import { getAssetsData } from "./api/assets";
+import { JSONData } from "./helpers/types";
 
-import './App.css';
+import "./App.css";
 
 const App: React.FC = () => {
   const [data, setData] = useState<JSONData>({
@@ -13,7 +13,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const fecthData = async () => {
-      setData(await getAssetsData('https://api.coincap.io/v2/assets'));
+      setData(await getAssetsData("https://api.coincap.io/v2/assets"));
     };
 
     fecthData().catch(console.error);

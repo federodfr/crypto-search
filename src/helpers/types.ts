@@ -1,5 +1,5 @@
 export interface JSONData {
-  data: any;
+  data: Array<Data>;
   timestamp: number;
 }
 

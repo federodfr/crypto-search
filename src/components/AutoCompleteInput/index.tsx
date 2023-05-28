@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getAssetsData } from '../../api/assets';
-import { Data } from '../../helpers/types';
-import Results from '../Results';
+import React, { useEffect, useState } from "react";
+import { getAssetsData } from "../../api/assets";
+import { Data } from "../../helpers/types";
+import Results from "../Results";
 
-import './styles.css';
+import "./styles.css";
 
 interface Props {
   data: Array<Data>;
@@ -27,7 +27,7 @@ const AutoCompleteInput: React.FC<Props> = ({
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {
-      await getAssetsData('https://api.coincap.io/v2/assets', {
+      await getAssetsData("https://api.coincap.io/v2/assets", {
         signal: controller.signal
       })
         .then((response) => {
@@ -71,7 +71,7 @@ const AutoCompleteInput: React.FC<Props> = ({
     <div>
       <div
         className={`autocomplete-input-container 
-                ${showResults && 'autocomplete-input-show-results'}`}
+                ${showResults && "autocomplete-input-show-results"}`}
       >
         <input
           className="autocomplete-input"

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Data } from '../../helpers/types';
-import HighlightedText from '../HighlightedText';
+import React from "react";
+import { Data } from "../../helpers/types";
+import HighlightedText from "../HighlightedText";
 
-import './styles.css';
+import "./styles.css";
 
 interface Props {
   search: string;

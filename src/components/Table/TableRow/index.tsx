@@ -1,8 +1,8 @@
-import React from 'react';
-import { reduceNumbers } from '../../../helpers';
-import { getDictionary } from '../../../helpers/dictionary';
-import { Data } from '../../../helpers/types';
-import HighlightedText from '../../HighlightedText';
+import React from "react";
+import { reduceNumbers } from "../../../helpers";
+import { getDictionary } from "../../../helpers/dictionary";
+import { Data } from "../../../helpers/types";
+import HighlightedText from "../../HighlightedText";
 
 interface Props {
   rowData?: Array<Data>;
@@ -12,26 +12,26 @@ interface Props {
 
 const TableRow: React.FC<Props> = ({ headerData, rowData, highlight }) => {
   //TO DO: make parse on endpoint to avoid switch statements. Redifine Json format to allow it.
-  const parseCells = (key: string, value: any) => {
+  const parseCells = (key: string, value: string) => {
     switch (true) {
       case value === null || value === undefined:
-        return '';
-      case key === 'explorer':
+        return "";
+      case key === "explorer":
         return (
           <a href={value} target="_blank" rel="noreferrer">
             Site
           </a>
         );
-      case key === 'changePercent24Hr':
+      case key === "changePercent24Hr":
         return `${Number(value).toFixed(2)}%`;
-      case key === 'logo':
+      case key === "logo":
         return <img width="32px" src={value} alt="crypto-logo" />;
-      case !isNaN(value):
-        return key !== 'rank' ? `$${reduceNumbers(Number(value))}` : value;
-      case key === 'name':
+      case !isNaN(parseInt(value)):
+        return key !== "rank" ? `$${reduceNumbers(Number(value))}` : value;
+      case key === "name":
         return (
           <HighlightedText
-            highlight={highlight ? highlight : ''}
+            highlight={highlight ? highlight : ""}
             value={value}
           />
         );
