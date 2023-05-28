@@ -1,0 +1,16 @@
+.results-container {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 24vw;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.result:hover {
+    background: grey;
+}

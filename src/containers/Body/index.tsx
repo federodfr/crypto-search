@@ -15,14 +15,21 @@ const Body: React.FC<Props> = ({data}) => {
     const [filteredData, setFilteredData] = useState<Array<Data>>(data)
 
     return (
-        <div>
-            <AutoCompleteInput 
-                data={data} 
-                search={search} 
-                setSearch={setSearch} 
-                filteredData={filteredData} 
-                setFilteredData={setFilteredData}/>
-            <Table data={filteredData} highlight={search}/>
+        <div className='container'>
+            <div className='body-container'>
+                <div className='autocomplete-container'>
+                    <span className='title'>Cryptocurrency search</span>
+                    <AutoCompleteInput 
+                        data={data} 
+                        search={search} 
+                        setSearch={setSearch} 
+                        filteredData={filteredData} 
+                        setFilteredData={setFilteredData}/>
+                </div>
+                <div className='table-container'>
+                        <Table data={filteredData} highlight={search}/>
+                </div>
+            </div>
         </div>
     )
 }

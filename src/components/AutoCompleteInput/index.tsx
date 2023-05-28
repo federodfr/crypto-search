@@ -12,7 +12,8 @@ interface Props {
     filteredData: Array<Data>,
     setFilteredData: React.Dispatch<React.SetStateAction<Array<Data>>>
 }
-
+//TO DO: Isolate in a new component Input to mantain concistency on code
+//TO DO: Check useDebounce to solve concurrency of promises instead of controller
 const AutoCompleteInput: React.FC<Props> = ({data, search, setSearch, filteredData, setFilteredData}) => {
     const [showResults, setShowResults] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -26,7 +27,7 @@ const AutoCompleteInput: React.FC<Props> = ({data, search, setSearch, filteredDa
                     const filteredFetchedData: Array<Data> = dataFetched?.filter(({name} : {name: string}) => {
                         return name?.toLowerCase().startsWith(search.toLowerCase())
                     })
-                    filteredFetchedData ? setFilteredData(filteredFetchedData) : setFilteredData(data)
+                    filteredFetchedData?.length > 0 ? setFilteredData(filteredFetchedData) : setFilteredData(data)
                 }
             )
             .finally(() => {
@@ -36,20 +37,34 @@ const AutoCompleteInput: React.FC<Props> = ({data, search, setSearch, filteredDa
             })
         }
         fetchData()
-    return () => {
-        controller.abort()
-    }
-
+        return () => {controller.abort()}
     },[search, data, setFilteredData])
     
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setShowResults(true)
+        setIsLoading(true)
+        setSearch(event.target.value)
+    }
+
+    const handleOnFocus = () => {
+        setShowResults(true)
+    }
+
+    const handleOnBlur = () => {
+        setShowResults(false)
+    }
+
     return (
         <div>
-            <div>
+            <div 
+                className={`autocomplete-input-container 
+                ${showResults && 'autocomplete-input-show-results'}`}>
                 <input 
+                    className='autocomplete-input' 
                     value={search} 
-                    onChange={(event) =>setSearch(event.target.value)}
-                    onFocus={() => setShowResults(true)} 
-                    onBlur={() => setShowResults(false)} 
+                    onChange={(event) =>handleOnChange(event)}
+                    onFocus={() => handleOnFocus()} 
+                    onBlur={() => handleOnBlur()} 
                 />
             </div>
             { (showResults) && 
@@ -57,7 +72,8 @@ const AutoCompleteInput: React.FC<Props> = ({data, search, setSearch, filteredDa
                     isLoading={isLoading}
                     search={search} 
                     filteredData={filteredData?.slice(0, 10)} 
-                    setSearch={setSearch}/>
+                    setSearch={setSearch}
+                    setShowResults={setShowResults}/>
             }
         </div>
     )

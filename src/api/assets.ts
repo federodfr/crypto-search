@@ -9,7 +9,7 @@ export const getAssetsData= async(endpoint: RequestInfo | URL, options?: any): P
             }
             return obj
         })
-        .catch(error => console.error(error))
+        .catch(error => console.error)
 }
 
 const getData = (data: any) => {

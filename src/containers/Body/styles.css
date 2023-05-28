@@ -1,0 +1,42 @@
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background: blue;
+}
+
+.body-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 40px;
+    box-shadow: 2px 2px 4px 5px lightgrey;
+    background: white
+
+}
+
+.autocomplete-container { 
+    display: flex;
+    padding: 12px 60px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.table-container {
+    overflow:auto;
+    overflow-y: scroll;
+    width: inherit;
+    margin-bottom: 40px;
+}
+
+.table-container::-webkit-scrollbar {
+    display: none;
+}

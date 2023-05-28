@@ -12,6 +12,7 @@ interface Props {
 }
 
 const TableRow: React.FC<Props> = ({headerData, rowData, highlight}) => {
+    //TO DO: make parse on endpoint to avoid switch statements. Redifine Json format to allow it.
     const parseCells = (key: string, value: any) => {
         switch(true) {
             case (value === null || value === undefined):
@@ -31,27 +32,46 @@ const TableRow: React.FC<Props> = ({headerData, rowData, highlight}) => {
         }
     }
 
+    const getHeaders = (headerData: Array<string>) => {
+        const headers = headerData.map((header: string, index: number) => (
+            <th key={index} className='table-data-header'>
+                {getDictionary(header)}
+            </th>
+        ))
+
+        return (
+            <tr className="table-row-header">
+                <th className='table-data-header'/>   
+                {headers}
+                <th className='table-data-header'/>
+            </tr>
+        )
+    }
+
+    const getRows = (rowData: Array<Data>) => {
+        const rows = rowData.map((dataElement: Data, index: number) => {
+            return (
+                <tr key={index} className='table-row-body'>
+                    <td/>
+                    {Object.entries(dataElement).map(([key, value]: Array<string>, index: number) =>{
+                        return <td key={index}>{parseCells(key, value)}</td>}
+                    )} 
+                     <td/>
+                </tr>
+            )
+        })
+
+        return rows
+    }
+
     const getTableData = () => {
         if(headerData){
-            const headers = headerData.map((header: string, index: number) => (
-                <th key={index}>{getDictionary(header)}</th>
-            ))
-            return (<tr>{headers}</tr>)
+            return getHeaders(headerData)
         } else if(rowData) {
-            const row = rowData.map((dataElement: Data, index: number) => {
-                return (
-                    <tr key={index}>
-                        {Object.entries(dataElement).map(([key, value]: Array<string>, index: number) =>{
-                            return <td key={index}>{parseCells(key, value)}</td>}
-                        )} 
-                    </tr>
-                )
-            })
-    
-            return row
-        } else {
-            console.error('Is mandatory loads headers data or rows data')
+            return getRows(rowData)
         }
+
+        return
     }
 
     return (

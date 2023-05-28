@@ -1,0 +1,26 @@
+.autocomplete-input-container {
+    border-radius: 10px; 
+    display:flex;
+    flex-direction: row;
+    background: white;
+    border: 1px solid black;
+    width: 24vw;
+    height: 4vh;
+}
+
+.autocomplete-input-show-results {
+    border-bottom-left-radius: 0; 
+    border-bottom-right-radius: 0; 
+    border-bottom: 1px solid lightgray;
+
+}
+
+.autocomplete-input {
+    border: none;
+    background:transparent;
+    width: inherit;
+}
+
+.autocomplete-input:focus {
+    outline: none;
+}

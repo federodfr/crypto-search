@@ -10,7 +10,6 @@ interface Props {
 }
 
 const Table: React.FC<Props> = ({data, highlight}) => {
-
     const tableHeaders = (): Array<string> => {
         const headers = Object.keys(data[0]).map(header => header)
         return headers
