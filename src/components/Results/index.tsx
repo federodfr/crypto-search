@@ -7,11 +7,12 @@ import './styles.css'
 interface Props {
     search: string,
     filteredData: Array<Data>,
-    setSearch: React.Dispatch<React.SetStateAction<string>>
+    setSearch: React.Dispatch<React.SetStateAction<string>>,
+    isLoading: boolean
 
 }
 
-const Results: React.FC<Props>= ({search, setSearch, filteredData}) => {
+const Results: React.FC<Props>= ({search, setSearch, filteredData, isLoading}) => {
     const getList =() => {
         const list = filteredData?.map((data: Data, idx: number) => {
             return (
@@ -28,7 +29,7 @@ const Results: React.FC<Props>= ({search, setSearch, filteredData}) => {
 
     return (
         <div>
-           { getList() }
+           { !isLoading ? getList() : <div> Loading ...</div>}
         </div>
     )
 }

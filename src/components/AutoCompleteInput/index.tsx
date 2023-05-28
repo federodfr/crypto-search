@@ -7,32 +7,41 @@ import './styles.css'
 
 interface Props {
     data: Array<Data>,
+    search: string,
+    setSearch: React.Dispatch<React.SetStateAction<string>>,
+    filteredData: Array<Data>,
+    setFilteredData: React.Dispatch<React.SetStateAction<Array<Data>>>
 }
 
-const AutoCompleteInput: React.FC<Props> = ({data}) => {
-    const [search, setSearch] = useState<string>('')
-    const [filteredData, setFilteredData] = useState<Array<Data>>(data);
+const AutoCompleteInput: React.FC<Props> = ({data, search, setSearch, filteredData, setFilteredData}) => {
     const [showResults, setShowResults] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const controller = new AbortController();
         const fetchData = async () => {
             await getAssetsData("https://api.coincap.io/v2/assets", {signal: controller.signal})
                 .then(response => {
-                    const dataFetched = response.data;
-                    const filteredData: Array<Data> = dataFetched?.filter(({name} : {name: string}) => {
+                    const dataFetched = response?.data;
+                    const filteredFetchedData: Array<Data> = dataFetched?.filter(({name} : {name: string}) => {
                         return name?.toLowerCase().startsWith(search.toLowerCase())
                     })
-                    setFilteredData(filteredData)
-                })
+                    filteredFetchedData ? setFilteredData(filteredFetchedData) : setFilteredData(data)
+                }
+            )
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 1000)
+            })
         }
-
         fetchData()
-        return () => {
-            controller.abort()
-        }
+    return () => {
+        controller.abort()
+    }
+
     },[search, data, setFilteredData])
-    console.log(showResults)
+    
     return (
         <div>
             <div>
@@ -45,6 +54,7 @@ const AutoCompleteInput: React.FC<Props> = ({data}) => {
             </div>
             { (showResults) && 
                 <Results 
+                    isLoading={isLoading}
                     search={search} 
                     filteredData={filteredData?.slice(0, 10)} 
                     setSearch={setSearch}/>

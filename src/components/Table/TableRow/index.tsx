@@ -1,48 +1,49 @@
 import React from 'react';
 import { reduceNumbers } from '../../../helpers';
+import { getDictionary } from '../../../helpers/dictionary';
 import { Data } from '../../../helpers/types';
+import HighlightedText from '../../HighlightedText';
 
 
 interface Props {
     rowData?: Array<Data>,
-    headerData?: Array<string>
+    headerData?: Array<string>,
+    highlight?: string
 }
 
-const TableRow: React.FC<Props> = ({headerData, rowData}) => {
-
+const TableRow: React.FC<Props> = ({headerData, rowData, highlight}) => {
     const parseCells = (key: string, value: any) => {
         switch(true) {
             case (value === null || value === undefined):
-                return <td></td>
+                return ''
             case (key === "explorer"):
-                return(
-                    <td>
-                        <a href={value} target="_blank" rel="noreferrer"> Site</a>
-                    </td>
-                )
+                return <a href={value} target="_blank" rel="noreferrer">Site</a>
             case (key === "changePercent24Hr"):
-                return <td>{Number(value).toFixed(2)}%</td>
+                return `${Number(value).toFixed(2)}%`
             case (key === "logo"):
-                return <td><img width='32px' src={value} alt='crypto-logo'/></td>
+                return <img width='32px' src={value} alt='crypto-logo'/>
             case (!isNaN(value)): 
-                return <td>{key !== 'rank' ? `$${reduceNumbers(Number(value))}` : value}</td>
-        
+                return key !== 'rank' ? `$${reduceNumbers(Number(value))}` : value
+            case (key === "name"):
+                return <HighlightedText highlight={highlight ? highlight : ''} value={value}/>
             default: 
-                return <td>{value}</td>
+                return value
         }
     }
 
     const getTableData = () => {
         if(headerData){
-            const headers = headerData.map((header: string) => (
-                <th >{header}</th>
+            const headers = headerData.map((header: string, index: number) => (
+                <th key={index}>{getDictionary(header)}</th>
             ))
             return (<tr>{headers}</tr>)
         } else if(rowData) {
-            const row = rowData.map(dataElement => {
+            const row = rowData.map((dataElement: Data, index: number) => {
                 return (
-                    <tr >
-                        {Object.entries(dataElement).map(([key, value]) => <td>{parseCells(key, value)}</td>)}
+                    <tr key={index}>
+                        {Object.entries(dataElement).map(([key, value]: Array<string>, index: number) =>{
+                            return <td key={index}>{parseCells(key, value)}</td>}
+                        )} 
                     </tr>
                 )
             })

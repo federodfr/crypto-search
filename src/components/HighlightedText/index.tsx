@@ -12,10 +12,10 @@ const HighlightedText: React.FC<Props> = ({highlight, value}) => {
 
     return (
         <div>
-            {splittedName.map( (split: string) => {
+            {splittedName.map( (split: string, index: number) => {
                 return split.toLowerCase() === highlight.toLowerCase() ? 
-                    <b>{split}</b> 
-                    : <span>{split}</span>
+                    <b key={index}>{split}</b> 
+                    : <span key={index}>{split}</span>
             })}
         </div>
     )

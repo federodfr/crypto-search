@@ -5,10 +5,11 @@ import './styles.css'
 import TableRow from './TableRow';
 
 interface Props {
-    data: Array<Data>
+    data: Array<Data>,
+    highlight: string
 }
 
-const Table: React.FC<Props> = ({data}) => {
+const Table: React.FC<Props> = ({data, highlight}) => {
 
     const tableHeaders = (): Array<string> => {
         const headers = Object.keys(data[0]).map(header => header)
@@ -21,7 +22,7 @@ const Table: React.FC<Props> = ({data}) => {
                 <TableRow headerData={tableHeaders()} />
             </thead>
             <tbody>
-                <TableRow rowData={data}/>
+                <TableRow rowData={data} highlight={highlight}/>
             </tbody>
         </table>
     )
