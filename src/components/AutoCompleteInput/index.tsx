@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAssetsData } from '../../api/assets';
 import { Data } from '../../helpers/types';
 import Results from '../Results';
 
@@ -10,31 +10,43 @@ interface Props {
 }
 
 const AutoCompleteInput: React.FC<Props> = ({data}) => {
-    const [search, setSearch] = useState<string>('');
+    const [search, setSearch] = useState<string>('')
+    const [filteredData, setFilteredData] = useState<Array<Data>>(data);
     const [showResults, setShowResults] = useState<boolean>(false);
 
-    const filteredData = () => {
-        const filteredData: Array<Data> = data?.filter(({name} : {name: string}) => {
-            return name?.toLowerCase().startsWith(search.toLowerCase())
-        })
-
-        return filteredData
-    }
-
     useEffect(() => {
-        setShowResults((search === '') ? false : true)
-    },[search])
+        const controller = new AbortController();
+        const fetchData = async () => {
+            await getAssetsData("https://api.coincap.io/v2/assets", {signal: controller.signal})
+                .then(response => {
+                    const dataFetched = response.data;
+                    const filteredData: Array<Data> = dataFetched?.filter(({name} : {name: string}) => {
+                        return name?.toLowerCase().startsWith(search.toLowerCase())
+                    })
+                    setFilteredData(filteredData)
+                })
+        }
+
+        fetchData()
+        setShowResults(true)
+        return () => {
+            controller.abort()
+        }
+    },[search, data, setFilteredData])
 
     return (
         <div>
-            <input 
-                value={search} 
-                onChange={(event) =>setSearch(event.target.value)}
-            />
+            <div>
+                <input 
+                    value={search} 
+                    onChange={(event) =>setSearch(event.target.value)}
+                />
+            </div>
             { (showResults) && 
                 <Results 
                     search={search} 
-                    filteredData={filteredData()}/>
+                    filteredData={filteredData?.slice(0, 10)} 
+                    setSearch={setSearch}/>
             }
         </div>
     )

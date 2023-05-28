@@ -10,7 +10,7 @@ interface Props {
 
 const Body: React.FC<Props> = ({data}) => {
     return (
-        <div className='container'>
+        <div>
             <AutoCompleteInput data={data}/>
         </div>
     )
