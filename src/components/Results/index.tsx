@@ -15,7 +15,10 @@ const Results: React.FC<Props>= ({search, setSearch, filteredData}) => {
     const getList =() => {
         const list = filteredData?.map((data: Data, idx: number) => {
             return (
-                <div key={idx} onClick={() => setSearch(data.name)}>
+                <div 
+                    key={idx} 
+                    onClick={() => setSearch(data.name)} 
+                    onMouseDown={(event) => event.preventDefault()}>
                     <HighlightedText highlight={search} value={data.name}/>
                 </div>
             )

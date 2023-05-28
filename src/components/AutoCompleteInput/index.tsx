@@ -28,18 +28,19 @@ const AutoCompleteInput: React.FC<Props> = ({data}) => {
         }
 
         fetchData()
-        setShowResults(true)
         return () => {
             controller.abort()
         }
     },[search, data, setFilteredData])
-
+    console.log(showResults)
     return (
         <div>
             <div>
                 <input 
                     value={search} 
                     onChange={(event) =>setSearch(event.target.value)}
+                    onFocus={() => setShowResults(true)} 
+                    onBlur={() => setShowResults(false)} 
                 />
             </div>
             { (showResults) && 
