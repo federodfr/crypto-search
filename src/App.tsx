@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import Body from './containers/Body';
+import { getAssetsData } from './api/assets';
+import { JSONData } from './helpers/types';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
 
-export default App;
+    const [ data, setData ] = useState<JSONData>({
+      data: [],
+      timestamp: 0
+    })
+    
+    useEffect(() => {
+      const fecthData = async () => {
+        setData(await getAssetsData("https://api.coincap.io/v2/assets"))
+      }
+  
+      fecthData()
+        .catch(console.error)
+    },[])
+  
+    return(
+      <div className="App">
+        {data.data.length !== 0 && <Body data={data.data}/>}
+      </div>
+    )
+  }
+  
+  export default App
+
