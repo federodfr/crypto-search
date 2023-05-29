@@ -12,7 +12,7 @@ const HighlightedText: React.FC<Props> = ({ highlight, value }) => {
     new RegExp(`(${highlight})`, "gi")
   );
 
-  const getHighlightedText = () => {
+  const getHighlightedText = (): Array<JSX.Element> => {
     const highlightedText = splittedName.map((split: string, index: number) => {
       return split.toLowerCase() === highlight.toLowerCase() ? (
         <b key={index}>{split}</b>

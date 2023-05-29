@@ -56,7 +56,7 @@ const TableRow: React.FC<Props> = ({ headerData, rowData, highlight }) => {
     );
   };
 
-  const getRows = (rowData: Array<Data>) => {
+  const getRows = (rowData: Array<Data>): Array<JSX.Element> => {
     const rows = rowData.map((dataElement: Data, index: number) => {
       return (
         <tr key={index} className="table-row-body">
