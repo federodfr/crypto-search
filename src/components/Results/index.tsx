@@ -24,7 +24,7 @@ const Results: React.FC<Props> = ({
     setShowResults(false);
   };
 
-  const getList = () => {
+  const getList = (): Array<JSX.Element> => {
     const list = filteredData?.map((data: Data, idx: number) => {
       return (
         <div
